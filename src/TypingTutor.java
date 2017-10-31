@@ -1,3 +1,6 @@
+import Helper.FileHelper;
+import Model.Word;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -12,13 +15,13 @@ public class TypingTutor extends JFrame{
     JLabel labelMaxPoints=null;
     int score=0;
     int displayed=0;
-    ArrayList<String>  wordlist;
+    ArrayList<Word>  wordlist;
     WordRun word1=null;
     WordRun word2=null;
     WordRun word3=null;
     public static int difficulty;
     
-    public void typingTutor(){
+    public void typingTutor(String language){
         setSize(400,400);
         setLayout(new BorderLayout());
         
@@ -47,41 +50,16 @@ public class TypingTutor extends JFrame{
         
         add(panel2,BorderLayout.SOUTH);
         
-        wordlist=new ArrayList<String>();
-        wordlist.add(0,"public");
-        wordlist.add(1,"return");
-        wordlist.add(2,"final");
-        wordlist.add(3,"import");
-        wordlist.add(4,"static");
-        wordlist.add(5,"new");
-        wordlist.add(6,"extends");
-        wordlist.add(7,"int");
-        wordlist.add(8,"throws");
-        wordlist.add(9,"void");
-        wordlist.add(10,"if");
-        wordlist.add(11,"this");
-        wordlist.add(12,"private");
-        wordlist.add(13,"class");
-        wordlist.add(14,"case");
-        wordlist.add(15,"else");
-        wordlist.add(16,"package");
-        wordlist.add(17,"boolean");
-        wordlist.add(18,"throw");
-        wordlist.add(19,"for");
-        wordlist.add(20,"long");
-        wordlist.add(21,"true");
-        wordlist.add(22,"byte");
-        wordlist.add(23,"interface");
-        wordlist.add(24,"false");
-        wordlist.add(25,"protected");
-        wordlist.add(26,"super");
-        wordlist.add(27,"break");
-        wordlist.add(28,"try");
-        wordlist.add(29,"switch");
-        wordlist.add(30,"implements");
-        wordlist.add(31,"catch");
-        wordlist.add(32,"default");
-        
+        wordlist=new ArrayList<Word>();
+        FileHelper fileHelper = new FileHelper();
+        ArrayList<Word> tempWords = fileHelper.readFile();
+
+        for(Word word : tempWords) {
+            if(word.getLanguage().equalsIgnoreCase(language)) {
+                wordlist.add(word);
+            }
+        }
+
         word1=new WordRun();
         word2=new WordRun();
         word3=new WordRun();
@@ -125,7 +103,7 @@ public class TypingTutor extends JFrame{
                     if((st==null)||(y==panel.getHeight())){
                         rand=new Random();
                         Thread.currentThread().sleep(rand.nextInt(100));
-                        st=wordlist.get(rand.nextInt(32));
+                        st=wordlist.get(rand.nextInt(32)).getWord();
                         y=0;
                         do{
                             x=rand.nextInt(panel.getWidth());

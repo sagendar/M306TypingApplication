@@ -1,14 +1,15 @@
+import Helper.FileHelper;
+import Model.Word;
+
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class DifficultyMenu {
 	
@@ -76,7 +77,35 @@ public class DifficultyMenu {
 		frame.setVisible(true);
 		
 	}
-	
+
+	private static String chooseLanguage() {
+
+		FileHelper fileHelper = new FileHelper();
+		ArrayList<Word> words = fileHelper.readFile();
+		Set<String> languages = new HashSet<String>();
+		for(int i = 0; i < words.size(); i++) {
+			languages.add(words.get(i).getLanguage());
+		}
+		ArrayList<String> lang = new ArrayList<>();
+		for (String l: languages) {
+			lang.add(l);
+		}
+
+		String[] array = lang.toArray(new String[lang.size()]);
+
+
+		JFrame frame = new JFrame("Choose Programming Language");
+		String language = (String) JOptionPane.showInputDialog(frame,
+				"Which language do you want to train?",
+				"Choose Programming Language",
+				JOptionPane.QUESTION_MESSAGE,
+				null,
+				array,
+				array[0]);
+
+		return language;
+	}
+
 	private static class DifficultyHandler implements ActionListener{
 
 		@Override
@@ -84,17 +113,17 @@ public class DifficultyMenu {
 			
 			if(e.getSource() == easyButton){
 				tp.difficulty = 40;
-				tp.typingTutor();
+				tp.typingTutor(chooseLanguage());
 				
 			}
 			if(e.getSource() == mediumButton){
 				tp.difficulty = 25;
-				tp.typingTutor();
+				tp.typingTutor(chooseLanguage());
 				
 			}
 			if(e.getSource() == hardButton){
 				tp.difficulty = 10;
-				tp.typingTutor();
+				tp.typingTutor(chooseLanguage());
 				
 			}
 			

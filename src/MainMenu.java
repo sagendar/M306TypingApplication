@@ -12,7 +12,8 @@ import javax.swing.JPanel;
 public class MainMenu implements ActionListener{
 	JButton startButton;
 	JButton exitButton;
-	
+	JButton editButton;
+
 	DifficultyMenu difficulty = new DifficultyMenu();
 
 	public void openMainMenu(){
@@ -33,6 +34,13 @@ public class MainMenu implements ActionListener{
 			setMaximumSize(getSize());
 			}
 		};
+		editButton = new JButton("Words"){
+			{
+				setSize(250,50);
+				setMaximumSize(getSize());
+			}
+		};
+
 		exitButton = new JButton("Exit"){
 			{
 			setSize(250,50);
@@ -40,10 +48,12 @@ public class MainMenu implements ActionListener{
 			}
 		};
 		startButton.addActionListener(this);
+		editButton.addActionListener(this);
 		exitButton.addActionListener(this);
 		
 		titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		editButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -51,9 +61,11 @@ public class MainMenu implements ActionListener{
 		frame.add(panel);
 		panel.add(Box.createRigidArea(new Dimension(20, 50)));
 		panel.add(titleLabel);
-		panel.add(Box.createRigidArea(new Dimension(50, 90)));
+		panel.add(Box.createRigidArea(new Dimension(50, 70)));
 		panel.add(startButton);
-		panel.add(Box.createRigidArea(new Dimension(100, 100)));
+		panel.add(Box.createRigidArea(new Dimension(70, 90)));
+		panel.add(editButton);
+		panel.add(Box.createRigidArea(new Dimension(90, 100)));
 		panel.add(exitButton);
 		
 		
@@ -65,8 +77,10 @@ public class MainMenu implements ActionListener{
 		
 		if(e.getSource() == startButton){
 			DifficultyMenu.difficultyMenu();
+		} else if(e.getSource() == editButton) {
+			EditMenu.editMenu();
 		}
-		
+
 	}
 
 }
